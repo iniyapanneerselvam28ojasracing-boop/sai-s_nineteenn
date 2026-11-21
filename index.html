@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year in Movies</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="terminal">
+        <div id="boot-output"></div>
+        <div class="command-line" id="command-line">
+    <span class="prompt">$</span>
+    <div class="input-wrapper">
+        <input type="text" id="command-input" autocomplete="off" autofocus>
+        <span class="terminal-block-cursor"></span>
+    </div>
+</div>
+    </main>
+
+    <div id="movie-viewer" class="movie-viewer hidden">
+        <div class="movie-backdrop-layer" aria-hidden="true">
+            <img id="movie-hero-backdrop" src="" alt="">
+            <div class="backdrop-shade"></div>
+        </div>
+
+        <div class="movie-page-content">
+            <section class="movie-hero">
+                <button id="back-to-terminal" class="back-button">← Back to Terminal</button>
+                <div class="hero-content">
+                    <p class="movie-label">A YEAR IN STORIES</p>
+                    <h1 id="movie-title">Movie Title</h1>
+                    <div class="movie-meta">
+                        <span id="movie-year">Year</span>
+                        <span class="meta-divider">•</span>
+                        <span id="movie-genre">Genre</span>
+                    </div>
+                    <p id="movie-description" class="movie-description">A story worth remembering.</p>
+                </div>
+                <div class="hero-bottom-fade"></div>
+            </section>
+
+            <section class="poster-section" aria-label="Alternate movie posters">
+                <div class="poster-marquee">
+                    <div id="poster-carousel" class="poster-track"></div>
+                </div>
+            </section>
+
+            <section id="personal-note" class="personal-note">
+                <div class="note-inner">
+                    <p class="note-eyebrow">A LITTLE SOMETHING FOR YOU</p>
+                    <div class="note-divider"></div>
+                    <div id="locked-note">
+                        <h2>Some memories are worth keeping.</h2>
+                        <p>This little note is still encrypted.</p>
+                        <p class="note-hint">Return to the terminal and unlock the archive.</p>
+                    </div>
+                    <div id="unlocked-note" class="hidden">
+                        <h2>A note from me to you.</h2>
+                        <p id="movie-note"></p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+<!-- FINAL BIRTHDAY REVEAL -->
+<div id="final-reveal" class="final-reveal hidden">
+
+    <div class="final-message">
+        <pre id="final-personal-text"></pre>
+        <pre id="final-system-log"></pre>
+        <span class="final-cursor" id="final-cursor">_</span>
+    </div>
+
+    <div class="final-curtains" id="final-curtains">
+        <div class="curtain curtain-left"></div>
+        <div class="curtain curtain-right"></div>
+    </div>
+
+    <div class="final-credits" id="final-credits">
+        <p>DIRECTED BY</p>
+        <h1>Iniya &lt;3</h1>
+    </div>
+
+</div>
+    <script src="script.js"></script>
+</body>
+</html>

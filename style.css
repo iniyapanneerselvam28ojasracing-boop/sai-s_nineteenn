@@ -1,0 +1,606 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #050505;
+    color: #e8e8e8;
+    font-family: "Courier New", monospace;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.terminal {
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+#boot-output {
+    white-space: pre-line;
+    line-height: 1.7;
+}
+
+.command-line {
+    display: none;
+    margin-top: 10px;
+}
+
+.command-line.active {
+    display: flex;
+}
+
+.prompt {
+    margin-right: 8px;
+}
+
+#command-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e8e8e8;
+    font-family: inherit;
+    font-size: inherit;
+    flex: 5;
+    caret-color: #7ee787;
+}
+#command-input:focus {
+    caret-color: #7ee787;
+}
+
+
+/* TERMINAL COLOURS */
+
+.terminal-line {
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.success { color: #7ee787; }
+.directory { color: #79c0ff; }
+.warning { color: #e3b341; }
+.error { color: #ff7b72; }
+.muted { color: #8b949e; }
+.highlight { color: #d2a8ff; }
+
+/* BLINKING CURSOR */
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+}
+
+#command-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e8e8e8;
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    caret-color: transparent;
+}
+
+.terminal-block-cursor {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 9px;
+    height: 17px;
+    background: #7ee787;
+    pointer-events: none;
+    animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+@keyframes blink {
+    to { visibility: hidden; }
+}
+
+/* TERMINAL SCROLLING */
+
+.terminal {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #30363d transparent;
+}
+
+/* ==========================================
+   MINIMAL CINEMATIC MOVIE ARCHIVE
+========================================== */
+
+.hidden {
+    display: none !important;
+}
+
+#movie-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #050505;
+    color: #f2eee9;
+    font-family: Arial, sans-serif;
+    isolation: isolate;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(180, 35, 48, .55) #080808;
+}
+
+/* FIXED BACKGROUND POSTER */
+
+.movie-backdrop-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background: #050505;
+}
+
+#movie-hero-backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    opacity: 1;
+    filter: saturate(.78);
+    transform: scale(1.025);
+    transition: opacity .12s linear;
+}
+
+.backdrop-shade {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(0,0,0,.76), rgba(0,0,0,.20) 70%),
+        linear-gradient(0deg, #050505 0%, rgba(5,5,5,.68) 22%, rgba(5,5,5,.18) 72%, rgba(5,5,5,.55) 100%);
+}
+
+.movie-page-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* ==========================================
+   MAIN HERO
+========================================== */
+
+.movie-hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 9vh 9vw 12vh;
+}
+
+.back-button {
+    position: absolute;
+    top: 28px;
+    left: 4vw;
+    z-index: 4;
+    padding: 9px 0;
+    border: 0;
+    background: transparent;
+    color: rgba(255,255,255,.78);
+    font: 12px/1.2 "Courier New", monospace;
+    letter-spacing: .08em;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+
+.back-button:hover {
+    color: #fff;
+}
+
+.hero-content {
+    width: min(690px, 75vw);
+    margin-top: 7vh;
+    text-shadow: 0 2px 25px rgba(0,0,0,.55);
+    animation: heroRise .8s ease both;
+}
+
+@keyframes heroRise {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.movie-label,
+.note-eyebrow {
+    color: #d7a1a4;
+    font: 11px/1.5 "Courier New", monospace;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.hero-content h1 {
+    max-width: 850px;
+    color: #fff;
+    font-size: clamp(46px, 7vw, 100px);
+    line-height: .98;
+    letter-spacing: -.055em;
+    font-weight: 700;
+    margin: 0 0 24px;
+}
+
+.movie-meta {
+    display: flex;
+    gap: 13px;
+    align-items: center;
+    color: rgba(255,255,255,.78);
+    font: 12px/1.5 "Courier New", monospace;
+    letter-spacing: .08em;
+    margin-bottom: 20px;
+}
+
+.meta-divider {
+    color: #c34b57;
+}
+
+.movie-description {
+    max-width: 480px;
+    color: rgba(255,255,255,.78);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.hero-bottom-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 24vh;
+    background: linear-gradient(transparent, #050505);
+    pointer-events: none;
+}
+
+/* ==========================================
+   FULL-WIDTH AUTOMATIC POSTER CAROUSEL
+========================================== */
+
+.poster-section {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(180deg, #050505, #080808 55%, #050505);
+    border-top: 1px solid rgba(184, 43, 55, .42);
+    border-bottom: 1px solid rgba(184, 43, 55, .30);
+    box-shadow:
+        0 -8px 28px rgba(125, 20, 31, .10),
+        0 8px 28px rgba(125, 20, 31, .08);
+    overflow: hidden;
+}
+
+.poster-marquee {
+    width: 100%;
+    overflow: hidden;
+}
+
+.poster-track {
+    display: flex;
+    width: max-content;
+    animation: posterDrift 34s linear infinite;
+    will-change: transform;
+}
+
+.poster-card {
+    display: block;
+    flex: 0 0 25vw;
+    width: 25vw;
+    aspect-ratio: 2 / 3;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-right: 1px solid rgba(255,255,255,.08);
+    border-radius: 0;
+    overflow: hidden;
+    background: #101010;
+    cursor: pointer;
+    opacity: .88;
+    transition: opacity .35s ease, filter .35s ease;
+}
+
+.poster-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+        transform .7s cubic-bezier(.2,.7,.2,1),
+        filter .4s ease;
+}
+
+.poster-card:hover {
+    opacity: 1;
+}
+
+.poster-card:hover img {
+    transform: scale(1.045);
+}
+
+.poster-card.active img {
+    filter: brightness(1.12);
+}
+
+@keyframes posterDrift {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* ==========================================
+   PERSONAL / SECRET MESSAGE SECTION
+========================================== */
+
+.personal-note {
+    min-height: 76vh;
+    display: grid;
+    place-items: center;
+    position: relative;
+    padding: 100px 8vw 120px;
+    margin: 0;
+    background:
+        radial-gradient(ellipse at 50% 45%, rgba(93, 18, 28, .15), transparent 58%),
+        #050505;
+    border: 0;
+    box-shadow: none;
+    text-align: center;
+}
+
+.note-inner {
+    width: min(680px, 100%);
+}
+
+.note-eyebrow {
+    margin-bottom: 22px;
+}
+
+.note-divider {
+    width: 68px;
+    height: 1px;
+    margin: 0 auto 34px;
+    background: #a93442;
+    box-shadow: 0 0 14px rgba(201, 50, 67, .55);
+}
+
+.personal-note h2 {
+    color: #f3eee9;
+    font-family: Georgia, serif;
+    font-size: clamp(30px, 4.2vw, 52px);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0 0 22px;
+}
+
+.personal-note p {
+    color: rgba(243,238,233,.76);
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.personal-note .note-hint {
+    margin-top: 10px;
+    color: rgba(243,238,233,.42);
+    font: 11px/1.8 "Courier New", monospace;
+    letter-spacing: .04em;
+}
+
+#movie-note {
+    white-space: pre-wrap;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width: 700px) {
+    .movie-hero {
+        min-height: 90svh;
+        padding: 12vh 7vw 14vh;
+        align-items: flex-end;
+    }
+
+    .back-button {
+        top: 20px;
+        left: 7vw;
+    }
+
+    .hero-content {
+        width: 100%;
+        margin-top: 0;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(42px, 12vw, 66px);
+    }
+
+    .movie-description {
+        font-size: 13px;
+    }
+
+    .poster-card {
+        flex-basis: 50vw;
+        width: 50vw;
+    }
+
+    .poster-track {
+        animation-duration: 27s;
+    }
+
+    .personal-note {
+        min-height: 70vh;
+        padding: 80px 7vw;
+    }
+}
+
+/* REDUCED MOTION ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    .poster-track {
+        animation: none;
+    }
+
+    .hero-content {
+        animation: none;
+    }
+
+    #movie-hero-backdrop {
+        transition: none;
+    }
+}
+/* ==================================
+   FINAL BIRTHDAY REVEAL
+================================== */
+
+.final-reveal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #050505;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.final-reveal.hidden {
+    display: none;
+}
+
+.final-message {
+    width: min(850px, 85%);
+    color: #dedede;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(12px, 1.4vw, 16px);
+    line-height: 1.9;
+    z-index: 1;
+}
+
+.final-message pre {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    font: inherit;
+}
+
+#final-system-log {
+    margin-top: 30px;
+    color: #b9b9b9;
+}
+
+.final-cursor {
+    color: #c92d35;
+    animation: finalBlink 0.8s steps(2, start) infinite;
+}
+
+@keyframes finalBlink {
+    to {
+        visibility: hidden;
+    }
+}
+
+/* THEATRE CURTAINS */
+
+.final-curtains {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    visibility: hidden;
+}
+
+.curtain {
+    width: 50%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #360609 0px,
+            #530a10 35px,
+            #270407 70px,
+            #510910 105px
+        );
+    box-shadow: inset 0 0 60px #000;
+}
+
+.curtain-left {
+    transform: translateX(-100%);
+}
+
+.curtain-right {
+    transform: translateX(100%);
+}
+
+.final-curtains.close {
+    visibility: visible;
+}
+
+.final-curtains.close .curtain-left,
+.final-curtains.close .curtain-right {
+    transform: translateX(0);
+    transition: transform 2.5s cubic-bezier(.7, 0, .2, 1);
+}
+
+/* FINAL CREDITS */
+
+.final-credits {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    background: #050505;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2s ease;
+}
+
+.final-credits.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.final-credits p {
+    font-family: 'Share Tech Mono', monospace;
+    color: #aaa;
+    font-size: 12px;
+    letter-spacing: 5px;
+    margin-bottom: 18px;
+}
+
+.final-credits h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    color: #f3f0ec;
+    font-size: clamp(42px, 7vw, 76px);
+    font-weight: 400;
+    letter-spacing: 3px;
+    font-style: italic;
+}
